@@ -3,14 +3,16 @@ package gitapi;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import gitapi.api.Network;
+import gitapi.service.RateLimiter;
 
 public class GitMain {
 	private static final Logger logger = LogManager.getLogger(GitMain.class);
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		logger.info("Start");
-		Network network = new Network();
-		network.getRequest("");
+		String location = "London";
+		String fullName = "Nishan Perera";
+		RateLimiter.computeResults(fullName, location);
+
 	}
 }

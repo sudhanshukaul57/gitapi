@@ -20,6 +20,8 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 
+import gitapi.GitMain;
+
 public class Network {
 	public static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 	private static final Logger logger = LogManager.getLogger(Network.class);
@@ -37,7 +39,8 @@ public class Network {
 		builder.setPath("/search/users");
 		builder.addParameter("q", query);
 		builder.addParameter("type", "Users");
-		// builder.addParameter("access_token", "*TOKEN HERE*");
+		if(GitMain.getAuthToken() != null)
+			builder.addParameter("access_token", GitMain.getAuthToken());
 
 		String urlString = builder.build().toURL().toString();
 		System.out.println(urlString);
@@ -58,7 +61,8 @@ public class Network {
 	}
 
 	public static Object fetchResult(String u) throws IOException {
-		// u+="?access_token="+"*TOKEN HERE*";
+		if(GitMain.getAuthToken() != null)
+			u+="?access_token="+GitMain.getAuthToken();
 		Object obj = null;
 		HttpResponse response = null;
 		System.out.println(u);

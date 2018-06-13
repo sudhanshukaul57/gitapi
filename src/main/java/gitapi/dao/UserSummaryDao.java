@@ -10,6 +10,9 @@ import com.mongodb.client.model.Filters;
 
 public class UserSummaryDao {
 
+	/**
+	 * this search table contains userId as foreign key and number of contributions made by developer in repo and repo url
+	 * */
 	public static void insertInUserSummaryTable(List<Document> searchResults) {
 		MongoCollection<Document> collection = MongoDAO.getCollection("userSummary");
 		if (!searchResults.isEmpty())

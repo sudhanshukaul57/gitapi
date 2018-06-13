@@ -37,7 +37,8 @@ public class DevInfo {
 	public List<RepositoryDetails> getRepositories() {
 		return repositories;
 	}
-
+	
+	
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
@@ -52,12 +53,6 @@ public class DevInfo {
 
 	public String getProfileLink() {
 		return profileLink;
-	}
-
-	@Override
-	public String toString() {
-		return "DevInfo [fullName=" + fullName + ", location=" + location + ", repositories=" + repositories
-				+ ", userId=" + userId + ", profileLink=" + profileLink + "]";
 	}
 
 }

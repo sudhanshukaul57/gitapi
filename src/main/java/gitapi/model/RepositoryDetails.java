@@ -2,12 +2,12 @@ package gitapi.model;
 
 public class RepositoryDetails {
 	private String repoName;
-	private int numberOfCommits;
+	private long numberOfCommits;
 
 	public RepositoryDetails() {
 	}
 
-	public RepositoryDetails(String repoName, int numberOfCommits) {
+	public RepositoryDetails(String repoName, long numberOfCommits) {
 		this.repoName = repoName;
 		this.numberOfCommits = numberOfCommits;
 	}
@@ -16,17 +16,10 @@ public class RepositoryDetails {
 		return repoName;
 	}
 
-	public void setRepoName(String repoName) {
-		this.repoName = repoName;
-	}
-
-	public int getNumberOfCommits() {
+	public long getNumberOfCommits() {
 		return numberOfCommits;
 	}
 
-	public void setNumberOfCommits(int numberOfCommits) {
-		this.numberOfCommits = numberOfCommits;
-	}
 
 	@Override
 	public String toString() {

@@ -50,6 +50,7 @@ public class Network {
 	}
 
 	public static boolean isRateLimitRemaining(HttpResponse response) {
+		//will check whether ratelimit value reaches 0 or not 
 		HttpHeaders headerNames = response.getHeaders();
 		List rateLimit = ((ArrayList) headerNames.get("x-ratelimit-remaining"));
 		System.out.println("Rate-Limit :" + rateLimit.get(0));
@@ -60,8 +61,8 @@ public class Network {
 		return false;
 	}
 
-	public static Object fetchResult(String u) throws IOException {
-		if(GitMain.getAuthToken() != null)
+	public static Object fetchResult(String u, boolean checkForAuth) throws IOException {
+		if(GitMain.getAuthToken() != null && checkForAuth)
 			u+="?access_token="+GitMain.getAuthToken();
 		Object obj = null;
 		HttpResponse response = null;
@@ -72,7 +73,6 @@ public class Network {
 			response = request.execute();
 			if (!Network.isRateLimitRemaining(response))
 				throw new Exception("Rate Limit Exceeded");
-			// System.out.println(response.getStatusCode());
 			
 			InputStream is = response.getContent();
 			JSONParser jsonParse = new JSONParser();

@@ -15,7 +15,9 @@ public class SearchTableDao {
 		if (!searchResults.isEmpty())
 			collection.insertMany(searchResults);
 	}
-
+/**
+ * this database table contains user name, location and userID
+ * */
 	public static MongoCursor<Document> findInSearchTable(String searchTerm, String location) {
 		MongoCollection<Document> collection = MongoDAO.getCollection("searchTable");
 		MongoCursor<Document> results = collection
@@ -23,11 +25,15 @@ public class SearchTableDao {
 		return results;
 	}
 
-	public static Document createSearchResult(String userId, String searchTerm, String location) {
+	/**
+	 * inserts user data in the database
+	 * */
+	public static Document createSearchResult(String userId, String searchTerm, String location, String htmlUrl) {
 		Document result = new Document();
 		result.put("userId", userId);
 		result.put("searchTerm", searchTerm);
 		result.put("location", location);
+		result.put("htmlUrl", htmlUrl);
 		return result;
 	}
 

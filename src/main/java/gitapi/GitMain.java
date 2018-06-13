@@ -1,5 +1,6 @@
 package gitapi;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,22 +8,23 @@ import java.util.Scanner;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import gitapi.model.DevInfo;
+import gitapi.model.UsersList;
 import gitapi.service.RateLimiter;
+import gitapi.utils.CsvWriter;
 
 public class GitMain {
 	private static final Logger logger = LogManager.getLogger(GitMain.class);
 	
-	private static List<DevInfo> developers;
+	private static List<UsersList> usersList;
 	private static String authToken;
 	
 	public static String getAuthToken() {
 		return authToken;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		logger.info("Start");
-		developers = new ArrayList<>();
+		usersList = new ArrayList<>();
 		boolean exitCode = true;
 		
 		try {
@@ -32,7 +34,6 @@ public class GitMain {
 			logger.info("No auth token detected. Continuing as anonymous user.");
 			logger.warn("Rate limit will be reduced as an anonymous user.");
 		}
-		
 		while(exitCode) {
 			Scanner scan = new Scanner(System.in);
 			System.out.println("Enter Full Name");
@@ -42,9 +43,9 @@ public class GitMain {
 			
 			if(location.isEmpty()) {
 				System.out.println("Missing location. Just using Full Name to search");
-				developers.add(new DevInfo(fullName));
+				usersList.add(new UsersList(fullName));
 			} else {
-				developers.add(new DevInfo(fullName, location));
+				usersList.add(new UsersList(fullName, location));
 			}
 			
 			System.out.println("Enter * to stop or return to continue");
@@ -54,12 +55,10 @@ public class GitMain {
 			}
 		}
 		
-//		String location = "";
-//		String fullName = "Nishan Perera";
-		developers.forEach(devInfo -> {
-			RateLimiter.computeResults(devInfo.getFullName(), devInfo.getLocation());
+		usersList.forEach(userInfo -> {
+			RateLimiter.computeResults(userInfo);
 		});
-//		RateLimiter.computeResults(fullName, location);
+		CsvWriter.writeCsvFile(usersList);
 
 	}
 }
